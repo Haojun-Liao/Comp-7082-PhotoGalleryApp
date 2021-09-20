@@ -6,6 +6,13 @@
     android:layout_width="match_parent"  android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="356dp"
+        android:layout_height="265dp"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="39dp" />
     <Button
         android:id="@+id/snapButton"
         android:layout_width="wrap_content"
