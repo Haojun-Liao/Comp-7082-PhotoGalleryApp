@@ -5,7 +5,12 @@
     android:id="@+id/constraintLayoutLayout"
     android:layout_width="match_parent"  android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageView" android:layout_alignParentBottom="true"
+        android:layout_marginBottom="18dp" android:text="search" android:onClick="search"
+        tools:layout_editor_absoluteX="291dp" tools:layout_editor_absoluteY="635dp" />
     <Button
         android:id="@+id/snapButton"
         android:layout_width="wrap_content"
