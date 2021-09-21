@@ -1,29 +1,24 @@
 package com.example.photogalleryapp;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+//import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> photos = null;
@@ -38,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.imageView);
-        photos = findPhotos();
+        photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         snapButton = findViewById(R.id.snapButton);
         snapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,18 +61,28 @@ public class MainActivity extends AppCompatActivity {
             displayPhoto(photos.get(index));
         }
     }
-    private ArrayList<String> findPhotos() {
+
+    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.photogalleryapp/files/Pictures");
         ArrayList<String> photos = new ArrayList<String>();
         File[] fList = file.listFiles();
         if (fList != null) {
             for (File f : fList) {
-                photos.add(f.getPath());
+                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
+                        && f.lastModified() <= endTimestamp.getTime())
+                ) && (keywords == "" || f.getPath().contains(keywords)))
+                    photos.add(f.getPath());
             }
         }
         return photos;
     }
+
+    public void search(View v) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivityForResult(intent, 2);
+    }
+
     public void scrollPhotos(View v) {
         if (photos.size() == 0) {
             return;
@@ -91,15 +96,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnNext:
                 if (index < (photos.size() - 1)) {
-                index++;
-            }
-            break;
+                    index++;
+                }
+                break;
             default:
                 break;
         }
-        Log.e("current index:", String.valueOf(index));
+//        Log.e("current index:", String.valueOf(index));
         displayPhoto(photos.get(index));
     }
+
     private void displayPhoto(String path) {
         ImageView iv = (ImageView) findViewById(R.id.imageView);
         TextView tv = (TextView) findViewById(R.id.tvTimestamp);
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             tv.setText(attr[2]);
         }
     }
+
     private void updatePhoto(String path, String caption) {
         String[] attr = path.split("_");
         if (attr.length >= 3) {
@@ -124,24 +131,49 @@ public class MainActivity extends AppCompatActivity {
             photos.set(index, attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3]);
         }
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "caption_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg",storageDir);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         mCurrentPhotoPath = image.getAbsolutePath();
-        Log.e("asdf", mCurrentPhotoPath);
-
+//        Log.e("asdf", mCurrentPhotoPath);
         return image;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        Log.e("request code", String.valueOf(requestCode));
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
+                Date startTimestamp, endTimestamp;
+                try {
+                    String from = (String) data.getStringExtra("STARTTIMESTAMP");
+                    String to = (String) data.getStringExtra("ENDTIMESTAMP");
+                    startTimestamp = format.parse(from);
+                    endTimestamp = format.parse(to);
+                } catch (Exception ex) {
+                    startTimestamp = null;
+                    endTimestamp = null;
+                }
+                String keywords = (String) data.getStringExtra("KEYWORDS");
+                index = 0;
+                photos = findPhotos(startTimestamp, endTimestamp, keywords);
+                if (photos.size() == 0) {
+                    displayPhoto(null);
+                } else {
+                    displayPhoto(photos.get(index));
+                }
+            }
+        }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            imageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
-            photos = findPhotos();
+            ImageView mImageView = (ImageView) findViewById(R.id.imageView);
+            mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
+            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         }
     }
 }

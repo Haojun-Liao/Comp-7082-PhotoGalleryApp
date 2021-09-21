@@ -3,11 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Adam k/Documents/term5software/Comp-7082-PhotoGalleryApp/app/src/main/res/layout/activity_main.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/shahz/Documents/GitHub/Comp-7082-PhotoGalleryApp/app/src/main/res/layout/activity_main.xml" value="0.2" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
