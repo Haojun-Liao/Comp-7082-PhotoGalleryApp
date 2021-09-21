@@ -1,7 +1,7 @@
 package com.example.photogalleryapp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent; import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 import android.view.View; import android.widget.EditText;
 import java.text.DateFormat; import java.text.SimpleDateFormat;
 import java.util.Calendar; import java.util.Date;
@@ -37,8 +37,8 @@ public class SearchActivity extends AppCompatActivity {
         i.putExtra("STARTTIMESTAMP", from.getText() != null ? from.getText().toString() : "");
         i.putExtra("ENDTIMESTAMP", to.getText() != null ? to.getText().toString() : "");
         i.putExtra("KEYWORDS", keywords.getText() != null ? keywords.getText().toString() : "");
+        //Log.e("asdf", "got here");
         setResult(RESULT_OK, i);
-        //Log.d("testing tag", "You pressed the GO button");
         finish();
     }
 }
