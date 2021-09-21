@@ -15,6 +15,7 @@
         android:layout_marginEnd="194dp"
         android:layout_marginBottom="178dp"
         android:text="Capture"
+        android:onClick="takePhoto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNext"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,4 +65,11 @@
         android:inputType="textPersonName"  android:text=""
         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageView" android:layout_alignParentBottom="true"
+        android:layout_marginBottom="18dp" android:text="Search"
+        android:onClick="startSearch"
+        tools:layout_editor_absoluteX="291dp" tools:layout_editor_absoluteY="635dp" />
 </RelativeLayout>
