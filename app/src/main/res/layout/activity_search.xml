@@ -10,11 +10,17 @@
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/etFromDateTime" android:layout_alignStart="@+id/btnCancel"
         android:textSize="24sp" />
+
     <EditText
-        android:id="@+id/etFromDateTime" android:inputType="date"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true" android:layout_alignParentTop="true"
-        android:layout_marginTop="38dp" android:ems="10" android:textSize="24sp" />
+        android:id="@+id/etFromDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="38dp"
+        android:ems="10"
+        android:inputType="date"
+        android:textSize="24sp" />
     <TextView
         android:id="@+id/tvToDateTime"  android:text="To: "
         android:layout_width="wrap_content" android:layout_height="wrap_content"
