@@ -9,13 +9,16 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     ImageView imageView;
     Button snapButton;
+    Button shareBtn;
 
     double[] locationPoint = {0.0, 0.0};
     ;
@@ -55,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         longitude = findViewById(R.id.longitude);
         latitude = findViewById(R.id.latitude);
         imageView = findViewById(R.id.imageView);
         photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0, 0, 0);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         snapButton = findViewById(R.id.snapButton);
+        shareBtn = findViewById(R.id.share);
 
         locationPermissionCheck();
 
@@ -121,8 +128,44 @@ public class MainActivity extends AppCompatActivity {
         } else {
             displayPhoto(photos.get(index));
         }
+
+        /** Share image to other apps */
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareImage();
+            }
+        });
     }
 
+    /** Share image to other apps */
+    private void shareImage() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        /** Name of save image file */
+        File f = new File(getExternalCacheDir() + "/" + getResources().getString(R.string.app_name));
+
+        Intent shareIntent;
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(f);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            outputStream.flush();
+            outputStream.close();
+            shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+            shareIntent.setType("image/*");
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        /** Show the Sharesheet */
+        startActivity(Intent.createChooser(shareIntent, "share image"));
+    }
 
     private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords,
                                          double minLongitude, double maxLongitude, double minLatitude, double maxLatitude) {
