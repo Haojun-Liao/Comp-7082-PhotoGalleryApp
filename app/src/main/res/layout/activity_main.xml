@@ -3,60 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutLayout"
-    android:layout_width="match_parent"  android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/imageView" android:layout_alignParentBottom="true"
-        android:layout_marginBottom="18dp" android:text="search" android:onClick="search"
-        tools:layout_editor_absoluteX="291dp" tools:layout_editor_absoluteY="635dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="350dp"
+        android:layout_height="260dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <TextView
+        android:id="@+id/tvTimestamp"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/imageView" />
+
+    <EditText
+        android:id="@+id/etCaption"
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/tvTimestamp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
     <Button
         android:id="@+id/snapButton"
         android:layout_width="wrap_content"
-        android:layout_height="58dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="194dp"
-        android:layout_marginBottom="178dp"
-        android:text="Capture"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.786" />
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="356dp" android:layout_height="265dp"
-        android:layout_marginStart="23dp" android:layout_marginTop="39dp"
-        android:layout_marginEnd="32dp" android:layout_marginBottom="39dp"
-        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_launcher_foreground" />
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true" android:layout_alignParentBottom="true"
-        android:layout_marginEnd="82dp" android:layout_marginBottom="70dp"
-        android:onClick="scrollPhotos"
-        android:text="next"
-        tools:layout_editor_absoluteX="0dp" tools:layout_editor_absoluteY="622dp" />
+        android:layout_below="@id/etCaption"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Capture" />
+
     <Button
         android:id="@+id/btnPrev"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true" android:layout_alignParentBottom="true"
-        android:layout_marginEnd="82dp" android:layout_marginBottom="15dp"
-        android:text="prev" android:onClick="scrollPhotos"
-        tools:layout_editor_absoluteX="0dp" tools:layout_editor_absoluteY="622dp" />
-    <TextView
-        android:id="@+id/tvTimestamp"
-        android:layout_width="340dp" android:layout_height="42dp"
-        android:layout_marginStart="16dp" android:layout_marginTop="345dp"
-        android:layout_marginEnd="55dp"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.255" />
+        android:text="prev"
+        android:onClick="scrollPhotos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etCaption"
+        android:layout_alignStart="@id/etCaption"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:id="@+id/btnNext"
+        android:text="next"
+        android:onClick="scrollPhotos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etCaption"
+        android:layout_alignEnd="@id/etCaption"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/longitude"
@@ -78,13 +85,21 @@
         android:layout_marginBottom="699dp"
         android:text="latitude: " />
 
-    <EditText
-        android:id="@+id/etCaption"
-        android:layout_width="372dp" android:layout_height="wrap_content"
-        android:layout_alignParentStart="true" android:layout_alignParentBottom="true"
-        android:layout_marginBottom="272dp" android:ems="10"
-        android:inputType="textPersonName"  android:text=""
-        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+    <Button
+        android:id="@+id/btnSearch"
+        android:text="search"
+        android:onClick="search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnPrev"
+        android:layout_margin="20dp" />
 
+    <Button
+        android:id="@+id/share"
+        android:text="Share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/snapButton"
+        android:layout_toRightOf="@id/btnSearch"
+        android:layout_marginVertical="20dp" />
 </RelativeLayout>
