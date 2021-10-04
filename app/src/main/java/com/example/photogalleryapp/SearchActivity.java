@@ -34,9 +34,17 @@ public class SearchActivity extends AppCompatActivity {
         EditText from = (EditText) findViewById(R.id.etFromDateTime);
         EditText to = (EditText) findViewById(R.id.etToDateTime);
         EditText keywords = (EditText) findViewById(R.id.etKeywords);
+        EditText minLongitude = (EditText) findViewById(R.id.minLongitude);
+        EditText maxLongitude = (EditText) findViewById(R.id.maxLongitude);
+        EditText minLatitude = (EditText) findViewById(R.id.minLatitude);
+        EditText maxLatitude = (EditText) findViewById(R.id.maxLatitude);
         i.putExtra("STARTTIMESTAMP", from.getText() != null ? from.getText().toString() : "");
         i.putExtra("ENDTIMESTAMP", to.getText() != null ? to.getText().toString() : "");
         i.putExtra("KEYWORDS", keywords.getText() != null ? keywords.getText().toString() : "");
+        i.putExtra("MINLONGITUDE", minLongitude.getText() != null ? minLongitude.getText().toString(): "");
+        i.putExtra("MAXLONGITUDE", maxLongitude.getText() != null ? maxLongitude.getText().toString(): "");
+        i.putExtra("MINLATITUDE", minLatitude.getText() != null ? minLatitude.getText().toString(): "");
+        i.putExtra("MAXLATITUDE", maxLatitude.getText() != null ? maxLatitude.getText().toString(): "");
         //Log.e("asdf", "got here");
         setResult(RESULT_OK, i);
         finish();
