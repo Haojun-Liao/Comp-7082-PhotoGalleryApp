@@ -271,9 +271,9 @@ public class MainActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        getLocation();
-        Log.e("0 :", String.valueOf(locationPoint[0]));
-        Log.e("1 :", String.valueOf(locationPoint[1]));
+//        getLocation();
+//        Log.e("0 :", String.valueOf(locationPoint[0]));
+//        Log.e("1 :", String.valueOf(locationPoint[1]));
         String imageFileName = "caption_" + timeStamp + "_" + locationPoint[0] + "_" + locationPoint[1] + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
@@ -345,29 +345,29 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-//                        longitude.append(String.valueOf(location.getLongitude()));
-//                        latitude.append(String.valueOf(location.getLatitude()));
-//                        Log.d("location-longitude", String.valueOf(location.getLongitude()));
-//                        Log.d("location-latitude", String.valueOf(location.getLatitude()));
-                        locationPoint[0] = location.getLongitude();
-                        locationPoint[1] = location.getLatitude();
-                        Log.d("00", String.valueOf(locationPoint[0]));
-                        Log.d("10", String.valueOf(locationPoint[1]));
-                    }
-                }
-
-            });
-        } else {
-            longitude.setText("longitude: unknown");
-            latitude.setText("latitude: unknown");
-            Log.d("location permission", "not granted");
-        }
-    }
+//    private void getLocation() {
+//        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+//                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+//                @Override
+//                public void onSuccess(Location location) {
+//                    if (location != null) {
+////                        longitude.append(String.valueOf(location.getLongitude()));
+////                        latitude.append(String.valueOf(location.getLatitude()));
+////                        Log.d("location-longitude", String.valueOf(location.getLongitude()));
+////                        Log.d("location-latitude", String.valueOf(location.getLatitude()));
+//                        locationPoint[0] = location.getLongitude();
+//                        locationPoint[1] = location.getLatitude();
+//                        Log.d("00", String.valueOf(locationPoint[0]));
+//                        Log.d("10", String.valueOf(locationPoint[1]));
+//                    }
+//                }
+//
+//            });
+//        } else {
+//            longitude.setText("longitude: unknown");
+//            latitude.setText("latitude: unknown");
+//            Log.d("location permission", "not granted");
+//        }
+//    }
 }
