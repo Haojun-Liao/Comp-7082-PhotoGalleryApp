@@ -232,25 +232,31 @@ public class MainActivity extends AppCompatActivity {
         ImageView iv = (ImageView) findViewById(R.id.imageView);
         TextView tv = (TextView) findViewById(R.id.tvTimestamp);
         EditText et = (EditText) findViewById(R.id.etCaption);
+        TextView tvLongitude = (TextView) findViewById(R.id.tvLongitude);
+        TextView tvLatitude = (TextView) findViewById(R.id.tvLatitude);
         if (path == null || path == "") {
             iv.setImageResource(R.mipmap.ic_launcher);
             et.setText("");
             tv.setText("");
+            tvLongitude.setText("");
+            tvLatitude.setText("");
         } else {
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
             et.setText(attr[1]);
             tv.setText(attr[2]);
+            tvLongitude.setText(attr[3]);
+            tvLatitude.setText(attr[4]);
         }
     }
 
     private void updatePhoto(String path, String caption) {
         String[] attr = path.split("_");
         if (attr.length >= 5) {
-            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5] + "_");
+            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5]);
             File from = new File(path);
             from.renameTo(to);
-            photos.set(index, attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5] + "_");
+            photos.set(index, attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5]);
         }
 
 //        String[] attr = path.split("_");

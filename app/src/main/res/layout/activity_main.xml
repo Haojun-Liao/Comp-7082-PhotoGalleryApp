@@ -35,12 +35,32 @@
         android:layout_marginVertical="10dp" />
 
     <TextView
+        android:id="@+id/tvLongitude"
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTimestamp"
+        android:layout_toRightOf="@id/longitude"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp" />
+
+    <TextView
         android:id="@+id/latitude"
         android:text="latitude: "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTimestamp"
-        android:layout_toRightOf="@id/longitude"
+        android:layout_toRightOf="@id/tvLongitude"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp" />
+
+    <TextView
+        android:id="@+id/tvLatitude"
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTimestamp"
+        android:layout_toRightOf="@id/latitude"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="10dp" />
 
