@@ -5,7 +5,9 @@
     android:id="@+id/constraintLayoutLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainView"
+
+    >
 
     <ImageView
         android:id="@+id/imageView"
@@ -86,13 +88,13 @@
 
     <Button
         android:id="@+id/btnPrev"
-        android:text="prev"
-        android:onClick="scrollPhotos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/etCaption"
         android:layout_alignStart="@id/etCaption"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:onClick="scrollPhotos"
+        android:text="prev" />
 
     <Button
         android:id="@+id/btnNext"
