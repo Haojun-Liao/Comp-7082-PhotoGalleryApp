@@ -32,19 +32,40 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Presenter implements MVPContract.Presenter {
+    private static Presenter single_instance = null;
+
+    public void setMainView(MVPContract.View mainView) {
+        this.mainView = mainView;
+    }
+
+    public void setModel(MVPContract.Model model) {
+        this.model = model;
+    }
+
     private MVPContract.View mainView;
     private MVPContract.Model model;
     private int index;
     private String mCurrentPhotoPath;
     private ArrayList<String> photos;
 
-    public Presenter(MVPContract.View mainView, MVPContract.Model model) {
+    private Presenter(MVPContract.View mainView, MVPContract.Model model) {
         this.mainView = mainView;
         this.model = model;
         this.index = 0;
         mCurrentPhotoPath = null;
         photos = model.findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0, 0, 0);
         displayPhoto();
+    }
+
+    public static Presenter getInstance(MVPContract.View mainView, MVPContract.Model model) {
+        if(single_instance == null){
+            single_instance = new Presenter(mainView, model);
+        }
+        return single_instance;
+    }
+
+    public static Presenter getInstance() {
+        return single_instance;
     }
 
     @Override
