@@ -9,13 +9,16 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     ImageView imageView;
     Button snapButton;
+    Button shareBtn;
 
     double[] locationPoint = {0.0, 0.0};
     ;
@@ -55,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         longitude = findViewById(R.id.longitude);
         latitude = findViewById(R.id.latitude);
         imageView = findViewById(R.id.imageView);
         photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0, 0, 0);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         snapButton = findViewById(R.id.snapButton);
+        shareBtn = findViewById(R.id.share);
 
         locationPermissionCheck();
 
@@ -121,8 +128,44 @@ public class MainActivity extends AppCompatActivity {
         } else {
             displayPhoto(photos.get(index));
         }
+
+        /** Share image to other apps */
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareImage();
+            }
+        });
     }
 
+    /** Share image to other apps */
+    private void shareImage() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        /** Name of save image file */
+        File f = new File(getExternalCacheDir() + "/" + getResources().getString(R.string.app_name));
+
+        Intent shareIntent;
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(f);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            outputStream.flush();
+            outputStream.close();
+            shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+            shareIntent.setType("image/*");
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        /** Show the Sharesheet */
+        startActivity(Intent.createChooser(shareIntent, "share image"));
+    }
 
     private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords,
                                          double minLongitude, double maxLongitude, double minLatitude, double maxLatitude) {
@@ -189,25 +232,31 @@ public class MainActivity extends AppCompatActivity {
         ImageView iv = (ImageView) findViewById(R.id.imageView);
         TextView tv = (TextView) findViewById(R.id.tvTimestamp);
         EditText et = (EditText) findViewById(R.id.etCaption);
+        TextView tvLongitude = (TextView) findViewById(R.id.tvLongitude);
+        TextView tvLatitude = (TextView) findViewById(R.id.tvLatitude);
         if (path == null || path == "") {
             iv.setImageResource(R.mipmap.ic_launcher);
             et.setText("");
             tv.setText("");
+            tvLongitude.setText("");
+            tvLatitude.setText("");
         } else {
             iv.setImageBitmap(BitmapFactory.decodeFile(path));
             String[] attr = path.split("_");
             et.setText(attr[1]);
             tv.setText(attr[2]);
+            tvLongitude.setText(attr[3]);
+            tvLatitude.setText(attr[4]);
         }
     }
 
     private void updatePhoto(String path, String caption) {
         String[] attr = path.split("_");
         if (attr.length >= 5) {
-            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5] + "_");
+            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5]);
             File from = new File(path);
             from.renameTo(to);
-            photos.set(index, attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5] + "_");
+            photos.set(index, attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3] + "_" + attr[4] + "_" + attr[5]);
         }
 
 //        String[] attr = path.split("_");
@@ -222,9 +271,9 @@ public class MainActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        getLocation();
-        Log.e("0 :", String.valueOf(locationPoint[0]));
-        Log.e("1 :", String.valueOf(locationPoint[1]));
+//        getLocation();
+//        Log.e("0 :", String.valueOf(locationPoint[0]));
+//        Log.e("1 :", String.valueOf(locationPoint[1]));
         String imageFileName = "caption_" + timeStamp + "_" + locationPoint[0] + "_" + locationPoint[1] + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
@@ -296,29 +345,29 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-//                        longitude.append(String.valueOf(location.getLongitude()));
-//                        latitude.append(String.valueOf(location.getLatitude()));
-//                        Log.d("location-longitude", String.valueOf(location.getLongitude()));
-//                        Log.d("location-latitude", String.valueOf(location.getLatitude()));
-                        locationPoint[0] = location.getLongitude();
-                        locationPoint[1] = location.getLatitude();
-                        Log.d("00", String.valueOf(locationPoint[0]));
-                        Log.d("10", String.valueOf(locationPoint[1]));
-                    }
-                }
-
-            });
-        } else {
-            longitude.setText("longitude: unknown");
-            latitude.setText("latitude: unknown");
-            Log.d("location permission", "not granted");
-        }
-    }
+//    private void getLocation() {
+//        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+//                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+//                @Override
+//                public void onSuccess(Location location) {
+//                    if (location != null) {
+////                        longitude.append(String.valueOf(location.getLongitude()));
+////                        latitude.append(String.valueOf(location.getLatitude()));
+////                        Log.d("location-longitude", String.valueOf(location.getLongitude()));
+////                        Log.d("location-latitude", String.valueOf(location.getLatitude()));
+//                        locationPoint[0] = location.getLongitude();
+//                        locationPoint[1] = location.getLatitude();
+//                        Log.d("00", String.valueOf(locationPoint[0]));
+//                        Log.d("10", String.valueOf(locationPoint[1]));
+//                    }
+//                }
+//
+//            });
+//        } else {
+//            longitude.setText("longitude: unknown");
+//            latitude.setText("latitude: unknown");
+//            Log.d("location permission", "not granted");
+//        }
+//    }
 }
