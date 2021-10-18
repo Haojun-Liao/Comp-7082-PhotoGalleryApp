@@ -50,8 +50,7 @@ public class MainView extends AppCompatActivity implements MVPContract.View {
         tvLatitude = (TextView) findViewById(R.id.tvLatitude);
         snapButton = findViewById(R.id.snapButton);
         shareBtn = findViewById(R.id.share);
-
-        presenter = new Presenter(this, new Model());
+        presenter = Presenter.getInstance(this, new Model());
 
         snapButton.setOnClickListener(new View.OnClickListener() {
             @Override
