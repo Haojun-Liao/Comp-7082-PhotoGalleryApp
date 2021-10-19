@@ -23,7 +23,6 @@ public interface MVPContract {
                                      double minLongitude, double maxLongitude, double minLatitude, double maxLatitude);
         String updatePhoto(String path, String caption);
     }
-
     interface Presenter {
         void capture(Context context);
         File createImageFile(Context context, double latitude, double longitude) throws IOException;

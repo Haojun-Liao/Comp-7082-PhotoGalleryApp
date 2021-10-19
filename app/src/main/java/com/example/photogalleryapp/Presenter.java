@@ -58,7 +58,7 @@ public class Presenter implements MVPContract.Presenter {
     }
 
     public static Presenter getInstance(MVPContract.View mainView, MVPContract.Model model) {
-        if(single_instance == null) {
+        if(single_instance == null){
             single_instance = new Presenter(mainView, model);
         }
         return single_instance;
@@ -82,7 +82,10 @@ public class Presenter implements MVPContract.Presenter {
                             Uri photoUri = FileProvider.getUriForFile(context, "com.example.photogalleryapp.fileprovider", photoFile);
                             mainView.launchCamera(photoUri);
                             mainView.displayPhoto(photoFile.getAbsolutePath());
-                        } catch (IOException e) {}
+                        } catch (IOException e) {
+
+                        }
+
                     }
                 }
             });
@@ -98,7 +101,6 @@ public class Presenter implements MVPContract.Presenter {
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         mCurrentPhotoPath = image.getAbsolutePath();
-
         return image;
     }
 
@@ -212,4 +214,8 @@ public class Presenter implements MVPContract.Presenter {
         /** Show the Sharesheet */
         context.startActivity(Intent.createChooser(shareIntent, "share image"));
     }
+
+
+
+
 }
