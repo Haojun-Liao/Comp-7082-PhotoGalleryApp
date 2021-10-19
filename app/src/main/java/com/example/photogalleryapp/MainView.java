@@ -81,6 +81,7 @@ public class MainView extends Activity implements MVPContract.View {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                presenter.updatePhoto(((EditText) findViewById(R.id.etCaption)).getText().toString());
                 presenter.scrollPhotos(view);
             }
         });
@@ -88,6 +89,7 @@ public class MainView extends Activity implements MVPContract.View {
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                presenter.updatePhoto(((EditText) findViewById(R.id.etCaption)).getText().toString());
                 presenter.scrollPhotos(view);
             }
         });
