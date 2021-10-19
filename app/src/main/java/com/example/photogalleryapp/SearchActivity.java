@@ -2,15 +2,23 @@ package com.example.photogalleryapp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent; import android.os.Bundle;
 //import android.util.Log;
-import android.view.View; import android.widget.EditText;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import java.text.DateFormat; import java.text.SimpleDateFormat;
 import java.util.Calendar; import java.util.Date;
 import java.util.Locale;
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends android.app.Activity {
+    Button cancelBtn, goBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        cancelBtn = findViewById(R.id.btnCancel);
+        goBtn = findViewById(R.id.go);
+
         try {
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd");
@@ -25,6 +33,37 @@ public class SearchActivity extends AppCompatActivity {
             ((EditText) findViewById(R.id.etToDateTime)).setText(new SimpleDateFormat(
                     "yyyy‐MM‐dd HH:mm:ss", Locale.getDefault()).format(tomorrow));
         } catch (Exception ex) { }
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        goBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                EditText from = (EditText) findViewById(R.id.etFromDateTime);
+                EditText to = (EditText) findViewById(R.id.etToDateTime);
+                EditText keywords = (EditText) findViewById(R.id.etKeywords);
+                EditText minLongitude = (EditText) findViewById(R.id.minLongitude);
+                EditText maxLongitude = (EditText) findViewById(R.id.maxLongitude);
+                EditText minLatitude = (EditText) findViewById(R.id.minLatitude);
+                EditText maxLatitude = (EditText) findViewById(R.id.maxLatitude);
+                i.putExtra("STARTTIMESTAMP", from.getText() != null ? from.getText().toString() : "");
+                i.putExtra("ENDTIMESTAMP", to.getText() != null ? to.getText().toString() : "");
+                i.putExtra("KEYWORDS", keywords.getText() != null ? keywords.getText().toString() : "");
+                i.putExtra("MINLONGITUDE", minLongitude.getText() != null ? minLongitude.getText().toString(): "");
+                i.putExtra("MAXLONGITUDE", maxLongitude.getText() != null ? maxLongitude.getText().toString(): "");
+                i.putExtra("MINLATITUDE", minLatitude.getText() != null ? minLatitude.getText().toString(): "");
+                i.putExtra("MAXLATITUDE", maxLatitude.getText() != null ? maxLatitude.getText().toString(): "");
+                //Log.e("asdf", "got here");
+                setResult(RESULT_OK, i);
+                finish();
+            }
+        });
     }
     public void cancel(final View v) {
         finish();
@@ -49,4 +88,5 @@ public class SearchActivity extends AppCompatActivity {
         setResult(RESULT_OK, i);
         finish();
     }
+
 }

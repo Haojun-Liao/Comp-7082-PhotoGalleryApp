@@ -42,7 +42,7 @@ import java.util.Date;
 
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends android.app.Activity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private ArrayList<String> photos = null;
     static final int REQUEST_IMAGE_CAPTURE = 1;

@@ -167,6 +167,7 @@ public class Presenter implements MVPContract.Presenter {
         }
     }
 
+
     /** Share image to other apps */
     public void shareImage(Context context, Bitmap bitmap) {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

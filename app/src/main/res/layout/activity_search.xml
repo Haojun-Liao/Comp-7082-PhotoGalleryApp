@@ -107,12 +107,12 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/btnCancel" android:text="Cancel" android:onClick="cancel"
+        android:id="@+id/btnCancel" android:text="Cancel"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp" />
     <Button
-        android:id="@+id/go"  android:onClick="go" android:text="Go"
+        android:id="@+id/go"  android:text="Go"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_alignParentEnd="true" android:layout_alignTop="@+id/btnCancel"
         android:layout_marginEnd="128dp" />
