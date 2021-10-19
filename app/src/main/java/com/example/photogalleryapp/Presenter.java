@@ -106,6 +106,8 @@ public class Presenter implements MVPContract.Presenter {
 
     @Override
     public void onSuccessfulCapture() {
+        photos.add(mCurrentPhotoPath);
+        index = photos.size() - 1;
         mainView.displayPhoto(mCurrentPhotoPath);
     }
 
