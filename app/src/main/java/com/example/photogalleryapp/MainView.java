@@ -154,4 +154,6 @@ public class MainView extends Activity implements MVPContract.View {
         Intent intent = presenter.search(this);
         startActivityForResult(intent, REQUEST_SEARCH_RESULT);
     }
+
+    public MainView() { }
 }

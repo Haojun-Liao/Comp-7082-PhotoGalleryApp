@@ -91,4 +91,6 @@ public class SearchActivity extends Activity {
         finish();
     }
 
+    public SearchActivity() {}
+
 }
