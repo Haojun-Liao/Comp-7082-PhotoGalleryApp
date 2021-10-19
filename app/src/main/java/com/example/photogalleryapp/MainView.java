@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,11 +17,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class MainView extends AppCompatActivity implements MVPContract.View {
 
@@ -35,12 +29,11 @@ public class MainView extends AppCompatActivity implements MVPContract.View {
     EditText et;
     Button snapButton, shareBtn;
 
-
-    String mCurrentPhotoPath;
+    /** Proxy - Client FileManager */
+    IFileManager proxyFileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("version", "11111111111");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.imageView);
@@ -102,12 +95,15 @@ public class MainView extends AppCompatActivity implements MVPContract.View {
     }
 
     @Override
+    /** Proxy - Service FileManager */
     public void launchCamera(Uri photoUri) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-           intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-           startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        }
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//           intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+//           startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+//        }
+        proxyFileManager = new ProxyFileManager();
+        proxyFileManager.saveFile(photoUri, this);
     }
 
     private void locationPermissionCheck() {

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTimestamp"
         android:layout_toRightOf="@id/longitude"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="0dp"
         android:layout_marginVertical="10dp" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTimestamp"
         android:layout_toRightOf="@id/latitude"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="0dp"
         android:layout_marginVertical="10dp" />
 
     <EditText
