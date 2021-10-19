@@ -93,13 +93,11 @@
         android:layout_below="@id/etCaption"
         android:layout_alignStart="@id/etCaption"
         android:layout_marginTop="20dp"
-        android:onClick="scrollPhotos"
         android:text="prev" />
 
     <Button
         android:id="@+id/btnNext"
         android:text="next"
-        android:onClick="scrollPhotos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/etCaption"
@@ -109,7 +107,6 @@
     <Button
         android:id="@+id/btnSearch"
         android:text="search"
-        android:onClick="search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnPrev"

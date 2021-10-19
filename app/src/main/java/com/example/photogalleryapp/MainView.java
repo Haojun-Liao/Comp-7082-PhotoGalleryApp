@@ -33,7 +33,7 @@ public class MainView extends AppCompatActivity implements MVPContract.View {
     ImageView imageView;
     TextView tv, tvLongitude, tvLatitude;
     EditText et;
-    Button snapButton, shareBtn;
+    Button snapButton, shareBtn, prevBtn, nextBtn, searchBtn;
 
 
     String mCurrentPhotoPath;
@@ -50,6 +50,10 @@ public class MainView extends AppCompatActivity implements MVPContract.View {
         tvLatitude = (TextView) findViewById(R.id.tvLatitude);
         snapButton = findViewById(R.id.snapButton);
         shareBtn = findViewById(R.id.share);
+        prevBtn = findViewById(R.id.btnPrev);
+        nextBtn = findViewById(R.id.btnNext);
+        searchBtn = findViewById(R.id.btnSearch);
+
 
         presenter = new Presenter(this, new Model());
 
@@ -70,6 +74,28 @@ public class MainView extends AppCompatActivity implements MVPContract.View {
                 BitmapDrawable drawable = (BitmapDrawable)imageView.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
                 presenter.shareImage(MainView.this, bitmap);
+            }
+        });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.scrollPhotos(view);
+            }
+        });
+
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.scrollPhotos(view);
+            }
+        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = presenter.search(MainView.this);
+                startActivityForResult(intent, 2);
             }
         });
     }
