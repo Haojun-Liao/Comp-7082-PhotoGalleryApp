@@ -34,10 +34,11 @@ public class UITest1 {
             new ActivityTestRule<>(MainView.class);
 
     DateFormat df = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
-    Date start, end;
+    Date start, end, base;
 
     {
         try {
+            base = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2021-10-01 00:00:00");
             start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2021-10-19 01:58:00");
             end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2021-10-20 00:00:00");
         } catch (ParseException e) {
@@ -49,6 +50,10 @@ public class UITest1 {
     @Test
     public void captionTest() {
         onView(withId(R.id.btnSearch)).perform(click());
+        onView(withId(R.id.etFromDateTime)).perform(replaceText(new SimpleDateFormat(
+                "yyyy‐MM‐dd HH:mm:ss", Locale.getDefault()).format(base)), closeSoftKeyboard());
+        onView(withId(R.id.etToDateTime)).perform(replaceText(new SimpleDateFormat(
+                "yyyy‐MM‐dd HH:mm:ss", Locale.getDefault()).format(end)), closeSoftKeyboard());
         onView(withId(R.id.etFromDateTime)).perform(replaceText(""), closeSoftKeyboard());
         onView(withId(R.id.etToDateTime)).perform(replaceText(""), closeSoftKeyboard());
         onView(withId(R.id.etKeywords)).perform(clearText(),typeText("cap1"), closeSoftKeyboard());
