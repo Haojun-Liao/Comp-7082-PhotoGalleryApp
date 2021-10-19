@@ -30,8 +30,8 @@ import java.util.Locale;
 public class UITest1 {
 
     @Rule
-    public ActivityTestRule<MainActivity> activityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainView> activityRule =
+            new ActivityTestRule<>(MainView.class);
 
     DateFormat df = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
     Date start, end;

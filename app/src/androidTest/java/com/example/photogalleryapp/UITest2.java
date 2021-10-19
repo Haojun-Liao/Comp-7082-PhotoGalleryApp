@@ -37,30 +37,30 @@ import java.util.Locale;
 
 public class UITest2 {
     @Rule
-    public ActivityTestRule<MainActivity> activityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainView> activityRule =
+            new ActivityTestRule<>(MainView.class);
 
     @Test
     public void LocationTest() {
         onView(withId(R.id.btnSearch)).perform(click());
-        onView(withId(R.id.minLongitude)).perform(replaceText("-130.0"), closeSoftKeyboard());
-        onView(withId(R.id.maxLongitude)).perform(replaceText("-120.0"), closeSoftKeyboard());
-        onView(withId(R.id.minLatitude)).perform(replaceText("40.0"), closeSoftKeyboard());
-        onView(withId(R.id.maxLatitude)).perform(replaceText("50.0"), closeSoftKeyboard());
+        onView(withId(R.id.minLongitude)).perform(replaceText("30.0"), closeSoftKeyboard());
+        onView(withId(R.id.maxLongitude)).perform(replaceText("40.0"), closeSoftKeyboard());
+        onView(withId(R.id.minLatitude)).perform(replaceText("-130.0"), closeSoftKeyboard());
+        onView(withId(R.id.maxLatitude)).perform(replaceText("-120.0"), closeSoftKeyboard());
         onView(withId(R.id.go)).perform(click());
         String lonText = getText(withId(R.id.tvLongitude));
         String latText = getText(withId(R.id.tvLatitude));
         double lonVal = Double.valueOf(lonText);
         double latVal = Double.valueOf(latText);
-        assert(-130.0 < lonVal && lonVal < -120.0);
-        assert(40.0 < latVal && latVal < 50.0);
+        assert(-130.0 < latVal && latVal < -120.0);
+        assert(30.0< lonVal && lonVal < 40.0);
         onView(withId(R.id.btnNext)).perform(click());
         lonText = getText(withId(R.id.tvLongitude));
         latText = getText(withId(R.id.tvLatitude));
         lonVal = Double.valueOf(lonText);
         latVal = Double.valueOf(latText);
-        assert(-130.0 < lonVal && lonVal < -120.0);
-        assert(40.0 < latVal && latVal < 50.0);
+        assert(-130.0 < latVal && latVal < -120.0);
+        assert(30.0 < lonVal && lonVal < 40.0);
     }
 
     String getText(final Matcher<View> matcher) {
