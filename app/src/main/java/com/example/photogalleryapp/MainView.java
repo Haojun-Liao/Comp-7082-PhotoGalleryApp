@@ -1,6 +1,7 @@
 package com.example.photogalleryapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MainView extends AppCompatActivity implements MVPContract.View {
+public class MainView extends Activity implements MVPContract.View {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_SEARCH_RESULT = 2;
