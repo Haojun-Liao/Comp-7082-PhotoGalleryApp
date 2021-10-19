@@ -25,36 +25,22 @@ public class Model implements MVPContract.Model{
     public ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords,
                                         double minLongitude, double maxLongitude, double minLatitude, double maxLatitude) {
 //    ){
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/Android/data/com.example.photogalleryapp/files/Pictures");
+        FileDirImmutable fileDirImmutable = new FileDirImmutable(new File(Environment.getExternalStorageDirectory()
+                .getAbsolutePath(), "/Android/data/com.example.photogalleryapp/files/Pictures"));
         ArrayList<String> photos = new ArrayList<String>();
-        File[] fList = file.listFiles();
-        if (fList != null) {
-            Arrays.stream(fList).forEach((f) -> {
-                String attr[] = f.getPath().split("_");
-                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
-                        && f.lastModified() <= endTimestamp.getTime())
-                ) && (keywords == "" || f.getPath().contains(keywords))
-                        && ((minLongitude == 0.0 && maxLongitude == 0.0) || (Double.parseDouble(attr[3]) >= minLongitude
-                        && Double.parseDouble(attr[3]) <= maxLongitude))
-                        && ((minLatitude == 0.0 && maxLatitude == 0.0) || (Double.parseDouble(attr[4]) >= minLatitude
-                        && Double.parseDouble(attr[4]) <= maxLatitude))
-                )
-                    photos.add(f.getPath());
-            });
-//            for (File f : fList) {
-//                String attr[] = f.getPath().split("_");
-//                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
-//                        && f.lastModified() <= endTimestamp.getTime())
-//                ) && (keywords == "" || f.getPath().contains(keywords))
-//                        && ((minLongitude == 0.0 && maxLongitude == 0.0) || (Double.parseDouble(attr[3]) >= minLongitude
-//                        && Double.parseDouble(attr[3]) <= maxLongitude))
-//                        && ((minLatitude == 0.0 && maxLatitude == 0.0) || (Double.parseDouble(attr[4]) >= minLatitude
-//                        && Double.parseDouble(attr[4]) <= maxLatitude))
-//                )
-//                    photos.add(f.getPath());
-//            }
-        }
+        File[] fList = fileDirImmutable.getAllFiles();
+        Arrays.stream(fList).forEach((f) -> {
+            String attr[] = f.getPath().split("_");
+            if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
+                    && f.lastModified() <= endTimestamp.getTime())
+            ) && (keywords == "" || f.getPath().contains(keywords))
+                    && ((minLongitude == 0.0 && maxLongitude == 0.0) || (Double.parseDouble(attr[3]) >= minLongitude
+                    && Double.parseDouble(attr[3]) <= maxLongitude))
+                    && ((minLatitude == 0.0 && maxLatitude == 0.0) || (Double.parseDouble(attr[4]) >= minLatitude
+                    && Double.parseDouble(attr[4]) <= maxLatitude))
+            )
+                photos.add(f.getPath());
+        });
         return photos;
     }
     @Override
@@ -69,7 +55,15 @@ public class Model implements MVPContract.Model{
         return "";
     }
 
-
+    public static class FileDirImmutable {
+        private final File fileDir;
+        public FileDirImmutable(final File fileDir) {
+            this.fileDir = fileDir;
+        }
+        public File[] getAllFiles() {
+            return fileDir.listFiles();
+        }
+    }
 
 
 
