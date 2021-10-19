@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     Button shareBtn;
 
     double[] locationPoint = {0.0, 0.0};
-    ;
+
     TextView longitude, latitude;
 
     @Override
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         snapButton = findViewById(R.id.snapButton);
         shareBtn = findViewById(R.id.share);
 
-        locationPermissionCheck();
+//        locationPermissionCheck();
 
         snapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         // Continue only if the File was successfully created
-
                     });
                 }
 
