@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import static android.content.ContentValues.TAG;
+import org.aspectj.lang.annotation.Pointcut;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -122,6 +125,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+            @BehaviorTrace("aspectJTest")
+            public void aspectJTest(int i) {Log.i(TAG, "Testing --- " + i);}
+
+            @Pointcut(execution(@com.example.photogalleryapp.BehaviorTrace * *(..)))
+            public void annoBehavior(){
+
+            }
+
         });
         if (photos.size() == 0) {
             displayPhoto(null);
